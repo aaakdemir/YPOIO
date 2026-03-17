@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YPO Impact Officer Guidance Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1C3A2A;
+    --green:  #2C5F3D;
+    --sage:   #4A7C59;
+    --light-sage: #8FAF9A;
+    --cream:  #F5F0E8;
+    --sand:   #E8DFD0;
+    --gold:   #B8860B;
+    --gold-light: #D4A017;
+    --coral:  #B85042;
+    --white:  #FFFFFF;
+    --dark:   #0D1F14;
+    --mid:    #374151;
+    --gray:   #6B7280;
+    --bg:     #F2EDE4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 20%, rgba(44,95,61,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 80%, rgba(184,134,11,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(28,58,42,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,134,11,0.3);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(184,134,11,0.6);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.6; transform:scale(0.85); }
+  }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+  }
+  .header-title span { color: var(--gold-light); font-style: italic; }
+  .header-badge {
+    font-size: 0.68rem;
+    color: var(--light-sage);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .app {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 96px 1.5rem 120px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── ONBOARDING SCREEN ── */
+  .onboarding {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 0;
+    animation: fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .onboarding-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+  }
+  .onboarding h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--forest);
+    margin-bottom: 0.5rem;
+  }
+  .onboarding h1 em {
+    font-style: italic;
+    color: var(--sage);
+  }
+  .onboarding-sub {
+    font-size: 1.05rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 1.2rem auto 2.4rem;
+    font-weight: 300;
+  }
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 2.4rem;
+    opacity: 0.7;
+  }
+
+  /* Onboarding form */
+  .context-card {
+    background: var(--white);
+    border: 1px solid rgba(44,95,61,0.15);
+    border-radius: 16px;
+    padding: 2rem 2.2rem;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 4px 32px rgba(13,31,20,0.08);
+    text-align: left;
+  }
+  .context-card-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+  }
+  .context-row {
+    margin-bottom: 1rem;
+  }
+  .context-row label {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--mid);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+  .context-row input, .context-row select {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(44,95,61,0.2);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .context-row input:focus, .context-row select:focus {
+    border-color: var(--sage);
+  }
+  .context-row input::placeholder { color: var(--gray); }
+  .context-skip {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: color 0.2s, text-decoration-color 0.2s;
+  }
+  .context-skip:hover { color: var(--sage); text-decoration-color: var(--sage); }
+
+  /* ── CAPABILITY PILLS ── */
+  .capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    max-width: 600px;
+  }
+  .cap-pill {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(44,95,61,0.25);
+    color: var(--sage);
+    background: rgba(44,95,61,0.06);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--forest);
+    color: var(--cream);
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 2px 12px rgba(13,31,20,0.18);
+  }
+  .btn-primary:hover {
+    background: var(--green);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(13,31,20,0.22);
+  }
+  .btn-primary:active { transform:translateY(0); }
+
+  /* ── CHAT SCREEN ── */
+  .chat-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    animation: fadeUp 0.5s ease both;
+  }
+  .chat-context-bar {
+    background: rgba(28,58,42,0.06);
+    border: 1px solid rgba(44,95,61,0.15);
+    border-radius: 10px;
+    padding: 0.75rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.82rem;
+    color: var(--mid);
+  }
+  .chat-context-bar .ctx-name {
+    font-weight: 600;
+    color: var(--forest);
+  }
+  .ctx-dot { color: var(--light-sage); }
+
+  /* ── MESSAGE LIST ── */
+  .messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+    min-height: 300px;
+  }
+  .msg {
+    display: flex;
+    gap: 0.8rem;
+    animation: fadeUp 0.4s ease both;
+  }
+  .msg.user { flex-direction: row-reverse; }
+
+  .msg-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+  .msg.assistant .msg-avatar {
+    background: var(--forest);
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+  }
+  .msg.user .msg-avatar {
+    background: var(--sand);
+    color: var(--forest);
+  }
+
+  .msg-bubble {
+    max-width: 72%;
+    padding: 0.9rem 1.1rem;
+    border-radius: 14px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .msg.assistant .msg-bubble {
+    background: var(--white);
+    color: var(--dark);
+    border: 1px solid rgba(44,95,61,0.12);
+    box-shadow: 0 2px 12px rgba(13,31,20,0.06);
+    border-top-left-radius: 4px;
+  }
+  .msg.user .msg-bubble {
+    background: var(--forest);
+    color: var(--cream);
+    border-top-right-radius: 4px;
+  }
+  .msg-bubble p { margin-bottom: 0.6rem; }
+  .msg-bubble p:last-child { margin-bottom: 0; }
+  .msg-bubble strong { font-weight: 600; color: inherit; }
+  .msg-bubble em { font-style: italic; }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+  .typing-indicator span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--light-sage);
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce {
+    0%,60%,100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* ── SUGGESTION CHIPS ── */
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .suggestion-chip {
+    font-size: 0.78rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(44,95,61,0.3);
+    color: var(--sage);
+    background: rgba(44,95,61,0.05);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+  }
+  .suggestion-chip:hover {
+    background: rgba(44,95,61,0.12);
+    border-color: var(--sage);
+    color: var(--forest);
+  }
+
+  /* ── INPUT BAR ── */
+  .input-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(242,237,228,0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(44,95,61,0.12);
+    padding: 1rem 1.5rem 1.2rem;
+  }
+  .input-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-end;
+  }
+  .input-wrap {
+    flex: 1;
+    position: relative;
+  }
+  textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid rgba(44,95,61,0.2);
+    border-radius: 12px;
+    font-size: 0.92rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    background: var(--white);
+    outline: none;
+    resize: none;
+    line-height: 1.5;
+    min-height: 48px;
+    max-height: 140px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow-y: auto;
+  }
+  textarea:focus {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(74,124,89,0.1);
+  }
+  textarea::placeholder { color: var(--gray); }
+  .send-btn {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: var(--forest);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 2px 10px rgba(13,31,20,0.2);
+  }
+  .send-btn:hover { background: var(--green); transform: translateY(-1px); }
+  .send-btn:disabled { background: var(--sand); cursor: not-allowed; transform: none; }
+  .send-btn svg { stroke: var(--cream); }
+  .send-btn:disabled svg { stroke: var(--gray); }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    border-left: 3px solid var(--gold);
+    padding: 0.6rem 0.9rem;
+    background: rgba(184,134,11,0.06);
+    border-radius: 0 8px 8px 0;
+    margin: 0.4rem 0;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--mid);
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(44,95,61,0.2); border-radius: 3px; }
+
+  /* ── HIDDEN ── */
+  .hidden { display: none !important; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .msg-bubble { max-width: 85%; font-size: 0.88rem; }
+    .onboarding h1 { font-size: 2rem; }
+    .context-card { padding: 1.4rem; }
+    .header-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">
+    <div class="header-dot"></div>
+    <div class="header-title">YPO Impact Officer <span>Guidance Agent</span></div>
+  </div>
+  <div class="header-badge">YPO Impact Officer · Post-Workshop</div>
+</header>
+
+<!-- APP -->
+<div class="app">
+
+  <!-- ── ONBOARDING SCREEN ── -->
+  <div class="onboarding" id="onboarding">
+    <div class="onboarding-eyebrow">YPO Global Impact Summit · 2026</div>
+    <h1>YPO Impact Officer<br><em>Guidance Agent</em></h1>
+    <div class="divider"></div>
+    <p class="onboarding-sub">Ask anything about the IO role, your 90-day commitment, handling board conversations, or finding your personal purpose as a leader.</p>
+
+    <div class="capabilities">
+      <div class="cap-pill">Impact model clarity</div>
+      <div class="cap-pill">90-day commitment</div>
+      <div class="cap-pill">Finding your purpose</div>
+      <div class="cap-pill">Chapter event design</div>
+      <div class="cap-pill">IO role definition</div>
+    </div>
+
+    <!-- Context card -->
+    <div class="context-card">
+      <div class="context-card-label">Optional — share your context for a more personalised experience</div>
+      <div class="context-row">
+        <label>Your first name</label>
+        <input type="text" id="userName" placeholder="e.g. Sarah" autocomplete="off">
+      </div>
+      <div class="context-row">
+        <label>Your YPO chapter</label>
+        <input type="text" id="userChapter" placeholder="e.g. YPO London" autocomplete="off">
+      </div>
+      <div class="context-row">
+        <label>Your industry / sector</label>
+        <input type="text" id="userSector" placeholder="e.g. Technology, Healthcare, Finance...">
+      </div>
+      <div class="context-row">
+        <label>Where are you on the impact journey?</label>
+        <select id="userModel">
+          <option value="">— Select if you know —</option>
+          <option value="1">Model 1 — Philanthropic Good (giving on the side)</option>
+          <option value="2">Model 2 — ESG Compliance (managing risk)</option>
+          <option value="3">Model 3 — Shared Value (impact in the strategy)</option>
+          <option value="4">Model 4 — Impact-First (mission = business model)</option>
+          <option value="5">Model 5 — Transformative (reimagining the system)</option>
+          <option value="unsure">Not sure yet</option>
+        </select>
+      </div>
+      <div style="text-align:center; margin-top:1.4rem;">
+        <button class="btn-primary" onclick="startChat()">
+          Begin
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+        </button>
+      </div>
+      <div class="context-skip" onclick="startChat(true)">Skip — start anonymously</div>
+    </div>
+  </div>
+
+  <!-- ── CHAT SCREEN ── -->
+  <div class="chat-screen hidden" id="chatScreen">
+    <div class="chat-context-bar" id="contextBar" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="contextText"></span>
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="suggestions" id="suggestions">
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Where should I start as a new IO?</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Help me draft my 90-day commitment</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">How do I find my personal purpose as a leader?</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">How do I run a 10-minute impact slot at a chapter event?</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INPUT BAR -->
+<div class="input-bar hidden" id="inputBar">
+  <div class="input-inner">
+    <div class="input-wrap">
+      <textarea id="userInput" placeholder="Ask anything about your IO role..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    </div>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────
+let conversationHistory = [];
+let userContext = {};
+let isLoading = false;
+let messageCount = 0;
+
+// ── SYSTEM PROMPT ──────────────────────────────────────────────
+function buildSystemPrompt() {
+  const ctx = userContext;
+  const hasContext = ctx.name || ctx.chapter || ctx.sector || ctx.model;
+
+  const personalisation = hasContext ? `
+The person you are speaking with:
+${ctx.name ? `- Name: ${ctx.name}` : ''}
+${ctx.chapter ? `- YPO Chapter: ${ctx.chapter}` : ''}
+${ctx.sector ? `- Industry/Sector: ${ctx.sector}` : ''}
+${ctx.model ? `- Self-assessed impact model: ${ctx.model}` : ''}
+Use this context to personalise your responses. Address them by first name if provided. Reference their sector or chapter when relevant.
+` : 'The person has chosen to remain anonymous. Do not ask for personal details.';
+
+  return `You are the IO Guidance agent — a personal advisor for YPO Impact Officers, built for the YPO Global Impact Summit 2026.
+
+Your role is to guide Impact Officers after the workshop, helping them translate what they learned into real action inside their chapters.
+
+${personalisation}
+
+YOUR KNOWLEDGE BASE:
+
+════════════════════════════════════════
+SECTION A — WORKSHOP CONTENT
+════════════════════════════════════════
+
+1. THE 5 IMPACT MODELS (from the workshop):
+   - Model 1: Philanthropic Good — giving alongside the business, not integrated
+   - Model 2: ESG Compliance — managing risk, meeting regulatory requirements
+   - Model 3: Shared Value — impact embedded in business strategy, creates competitive advantage
+   - Model 4: Impact-First — the social or environmental mission IS the business model
+   - Model 5: Transformative Good — reimagining entire systems, sector-level change
+
+2. THE IO ROLE (correct understanding):
+   - The IO is NOT an organiser of events or fundraising
+   - The IO is a PRESENCE — a voice, a question, a connection
+   - Success = 1-2 meaningful things per year. That is enough.
+   - The IO supports the Learning Officer, never competes
+   - Best practice: 10-minute impact slot at flagship events (where 100% of chapter gathers) — NOT standalone events
+   - The IO should be the person already living the values — not someone assigned the role
+   - Key phrase: "be in the room and keep the topic alive"
+   - "You don't save the Titanic by turning it 90 degrees if 1 degree can do the job"
+
+3. THE PURPOSE FRAMEWORK (from the workshop):
+   - Impact is an inside job — it starts with personal transformation
+   - Impact ripples outward: Self → Family → Work → Communities → Nature
+   - Three steps: Discovery (Why are you put on this earth?), Clarity (finding your personal Guiding Star — a clearly stated life purpose), Practice (small daily habits that change limiting beliefs, increase mindfulness, expand giving, improve wellness, harness belonging)
+   - "We are all, at all times, consciously and mostly unconsciously, impacting our present and co-creating the future"
+   - Start with the belief that ALL YPO members are already impactful — every human is
+
+4. PURPOSE AT THREE LEVELS:
+   - THE MEMBER: "What kind of leader am I becoming?" — the IO holds this question open
+   - THE CHAPTER: "What does our chapter stand for beyond the calendar?" — the IO gives the chapter an identity beyond networking
+   - YPO: "What is this network for in the world?" — 35,000 members, millions of employees, the IO network is how YPO becomes a force for better leadership globally
+
+5. HANDLING BOARD PUSHBACK (common objections and responses):
+   - "We don't need another board position" → The IO is the lightest position on the board. 1-2 things a year. Already exists as a person in your chapter.
+   - "The Learning Officer handles impact" → The IO supports the LO, never replaces. They bring the lens, the LO runs the content.
+   - "We tried this before and it failed" → It failed because expectations were wrong. Set the bar at 1-2 things. The role is a presence, not a programme.
+   - "Our chapter isn't ready for this" → Every chapter has someone already caring about this. The IO is recognition, not recruitment.
+   - "It's too much work" → It is the least burdensome position on the board when done right. The IO doesn't organise — they inspire.
+
+6. 90-DAY COMMITMENT FRAMEWORK:
+   Help users draft a specific, believable, low-bar-but-high-meaning commitment. Structure:
+   - ONE: What is the single most important thing you will do in the next 90 days?
+   - WHO: Who specifically needs to say yes for this to happen?
+   - WEEK ONE: What will you do in the first 7 days?
+   The commitment should be concrete, personal, and small enough to actually happen.
+
+════════════════════════════════════════
+SECTION B — YPO 2024 GLOBAL IMPACT REPORT DATA
+(Use this to ground advice in real peer benchmarks. Cite it naturally, not robotically.)
+════════════════════════════════════════
+
+ABOUT THE REPORT:
+- Theme: "Elevating Leadership: Elevating Impact" — second annual ESG benchmarking report for private companies
+- Survey: 887 organizations across 99 countries provided data (Jan–Jun 2023 and Jan–Jun 2024)
+- Geography: North America 48%, Asia 18%, Europe 14%, Africa 9%, South America 6%, Oceania 4%
+- Revenue: 41% under $10M, 34% $11–50M, 18% over $100M
+- Top sectors: Services 22%, Consumer Goods 15%, Financials 11%, Infrastructure 10%, Food & Beverage 10%
+- Network scale: 35,000+ members, 150+ countries, USD 9 trillion combined revenue, 22 million employees
+
+HEADLINE FINDING — WHERE YPO MEMBERS STAND:
+- Members OUTPERFORM global benchmarks on 4 of 7 KPIs: % Female Board Members, % Female Managers, Gender Wage Equity Ratio, Long-Term Net Zero Goal
+- Members UNDERPERFORM on: % Permanent Female Employees, Short-Term GHG Reduction Targets
+- Key insight: Larger companies (500+ employees) significantly more likely to have sustainability governance
+
+ENVIRONMENTAL DATA:
+
+Decarbonization Strategy:
+- 60% have NO strategy at all
+- 18% have a strategy but no board oversight
+- 23% have a strategy WITH board oversight
+- By region: South America leads (70% have strategy), North America lags (24%)
+- By sector: Renewable Resources & Alt Energy highest (80%), Health Care lowest (16%)
+- By size: 500+ employees = 64% have strategy; 0–49 employees = only 28%
+
+Short-Term GHG Reduction Targets (Paris-aligned):
+- 68% have NO target
+- 17% have a non-Paris-aligned target
+- 14% have a Paris-aligned target (Scope 1, 2, material Scope 3)
+- Global CDP reference: 25% of disclosing companies had Paris-aligned targets in 2024 — YPO members trail this
+- By region: South America 54%, Europe 47%, Asia 46%, Africa 38%, North America 20%, Oceania 10%
+
+Long-Term Net Zero Goals:
+- 39% have no goal and no plans
+- 30% intend to set one within 2 years
+- 11% have a non-aligned goal
+- 21% have a net-zero aligned goal
+- Global reference: only 8% of companies globally have a net-zero goal — YPO OUTPERFORMS here
+- By region: South America leads (45%), North America and Oceania trail (11%)
+- By sector: Infrastructure 50%, Renewable Resources 50%; Transportation 0%
+
+GHG Emissions Reporting:
+- Most respondents do NOT report Scope 1, 2, or 3 emissions
+- Free tool available: GHG 360 calculator by Proof (Fleur Heyns, Cape Town)
+
+SUSTAINABILITY GOVERNANCE DATA:
+
+Board-Level Social & Environmental Committee:
+- 28% had one in 2024
+- 500+ employees: 50%; 0–49 employees: 29%
+- By region: South America 45%, Asia 42%, Africa 35%, Europe 33%, North America 20%, Oceania 15%
+- By sector: Financials 46%, Resource Transformation 44%, Extractives 38%
+
+Full-Time Sustainability Leadership:
+- 28% had one in 2024
+- 500+ employees: 50%; 0–49 employees: 21%
+- By region: South America 61%, Europe 47%, Asia 29%, Africa 24%, North America 19%, Oceania 14%
+- By sector: Resource Transformation 67%, Extractives 50%, Consumer Goods 37%
+
+Sustainability Practices (GRI/UN Global Compact aligned):
+- 52% regularly reviewed risks related to business model
+- 34% supervised ESG reporting
+- 32% did NOT take ANY listed sustainability actions
+- 29% issued annual statement on sustainable development relevance
+- 28% issued zero-tolerance for corruption statement
+- 500+ employees: 60% reviewed risks, only 20% took no actions
+- Small companies (<50 employees): 42% took no sustainability actions
+
+REPRESENTATION & INCLUSION DATA:
+
+Female Board Members:
+- YPO average: 27%, median 25%
+- Global reference: 23.3%; Global target: 40% — YPO OUTPERFORMS
+- By region: Africa 32%, Oceania 32%, Europe 29%, North America 27%, South America 27%, Asia 24% (lowest)
+- By sector: Services 33% (highest), Resource Transformation 19% (lowest)
+
+Female Managers:
+- YPO average: 38.8%, median 40%
+- Global reference: 28% — YPO significantly OUTPERFORMS
+- By region: South America 45%, North America 42%, Europe 42%; Asia 26% (lowest)
+- By sector: Health Care 45%, Services 45%; Extractives 17%, Transportation 21% (lowest)
+
+Female Employees:
+- YPO average: 39.1%, median 40%
+- Global reference: 40.1% — YPO slightly underperforms
+- By region: North America 41%, Europe 41%, Oceania 41%; Asia 28% (lowest)
+- By sector: Health Care 54%; Extractives 19%, Renewable Resources 20% (lowest)
+
+Gender Wage Equity Ratio (1.0 = equal pay):
+- YPO average: 0.94, median 1.0
+- Global reference: 0.78 — YPO strongly OUTPERFORMS
+- By region: Asia 0.98 (most equitable); Europe 0.92, South America 0.92
+
+════════════════════════════════════════
+SECTION C — YPO 2023 GLOBAL IMPACT REPORT DATA (BASELINE YEAR)
+(The inaugural report. Use for trend comparisons — "the picture has shifted since 2023" or "this gap has persisted for two years". Global Chairman: Raymond Watt 2023–2024. Sponsored by EY.)
+════════════════════════════════════════
+
+SURVEY OVERVIEW (2023):
+- 700+ organizations from 82 countries provided responses (~1,000 registered)
+- Geography: Americas 56%, EMEA 25%, APAC 19%
+- Revenue: 28% ($0–$10M), 40% ($10–$50M), 12% ($50–$100M), 20% ($100M+); median ~$20M
+- Top sectors: Services 22%, Consumer Goods 15%, Financials 11%, Food & Beverage 11%, Health Care 9%, Infrastructure 9%, Tech & Comms 8%, Transportation 6%
+- Top responding countries: USA, India, Canada
+
+KEY HEADLINE (2023): YPO members showed HIGH performance on all four gender equity metrics, but reported environmental data far less frequently than social/governance metrics — less than 3% submitted Scope 1 or 2 emissions data.
+
+DIVERSITY, EQUITY & INCLUSION (2023):
+
+Female Board Members:
+- Average 25%, median 25%
+- Global reference: 19.7%; Global target: 40% — YPO OUTPERFORMS
+- By sector: Services highest (32.1%), Resource Transformation lowest (18.9%), Extractives 15.5%
+- By size: 1–49 employees = 33.1% (highest); 150–499 employees = 23.4% (lowest)
+- By revenue: 0–$10M = 30.8%; $100M+ = 23.1%
+- Top countries: U.S. 25.8%, Canada 24.9%, India 22.2%
+
+Female Managers:
+- Average 40%, median 40%
+- Global reference: 28% — YPO strongly OUTPERFORMS
+- By sector: Services 49.1%, Consumer Goods 45%, Health Care 44.8%, Financials 45.1%; Transportation 16.8% (lowest), Extractives 18.8%
+- By revenue: 0–$10M = 50.1% (highest); $100M+ = 32.9%
+- Top countries: U.S. 43.1%, Canada 40.9%, India 25.5%
+
+Female Employees:
+- Average 41%, median 40%
+- Global reference: 39.5%; 2X Challenge target: 50%
+- By sector: Health Care 53.8% (highest); Extractives 16.4% (lowest), Transportation 19.5%
+- By revenue: 0–$10M = 48.3%; $100M+ = 34.5%
+- Top countries: Canada 45%, U.S. 43.7%, India 22.8%
+
+Gender Wage Equity Ratio (2023):
+- Average 0.96, median 1.0
+- Global reference: 0.78 — YPO strongly OUTPERFORMS
+- By sector: Health Care 1.04, Extractives 1.04, Food & Beverage 1.00, Transportation 1.00; Infrastructure 0.82 (lowest), Financials 0.90
+- By employee count: 50–149 employees = 1.02 (most equitable)
+
+EMPLOYEE ATTRACTION & RETENTION (2023):
+- 37,926 net new jobs created in H1 2023; ranged from -250 to +9,990 per company
+- 55% of new positions created by companies with 500+ employees
+- 66% of respondents faced moderate-to-severe difficulty hiring general workforce
+- Average turnover rate: 9.4%, median 6.5%
+- Global reference turnover: 10.6% — YPO members retain staff better
+- By sector: Extractives highest turnover (14.6%), Food & Beverage 12.7%; Infrastructure lowest (5.5%), Financials 7.1%
+- Best retention: organizations with <500 employees and in infrastructure/financials sectors
+
+ENVIRONMENTAL (2023):
+- Renewable energy consumed: average 38%, median 20% (only 44 respondents — small sample)
+- Global reference: 12.3% — YPO significantly OUTPERFORMS on renewable energy
+- Scope 1, 2, 3 emissions: less than 3% of respondents submitted data — major gap
+- Smaller companies (<150 employees, <$100M revenue) outperformed on renewable energy
+
+SUSTAINABILITY GOVERNANCE (2023):
+- Social & Environmental Board Committee: 28% had one
+  - 500+ employees: 42.3%; 50–149 employees: 12.8% (lowest)
+  - $100M+ revenue: 50% (highest)
+  - By sector: Resource Transformation 66.7%, Transportation 66.7% (both small samples), Extractives 50%, Renewable Resources 50%; Infrastructure 7.7% (lowest)
+  - Top countries: India 45.5%, U.S. 20.3%, Canada 16.7%
+- Full-Time Sustainability Leadership: 27% had one
+  - Global reference: 30% — YPO slightly trails
+  - 500+ employees: 44%; 1–49 employees: 21.1%
+  - By sector: Resource Transformation 66.7%, Extractives 50%, Renewable Resources 50%; Infrastructure 7.7% (lowest)
+  - Top countries: Canada 50%, India 36.4%, U.S. 12.1%
+- Ethics tracking: 30.9% of U.S. respondents; ~82% of companies with 500+ employees track ethics metrics
+
+KEY 2023 vs 2024 TRENDS TO USE IN CONVERSATION:
+- Female board representation: 25% (2023) → 27% avg (2024) — modest improvement
+- Sustainability board committees: 28% (2023) → 28% (2024) — flat, no progress
+- Full-time sustainability leadership: 27% (2023) → 28% (2024) — minimal movement
+- GHG emissions reporting remains the biggest persistent gap across both years
+- Environmental data collection is the #1 capability gap YPO members need to address
+- Pattern: social metrics consistently strong, environmental and governance metrics consistently weaker
+
+YOUR TONE AND APPROACH:
+
+EARLY IN CONVERSATION (first 2-3 exchanges):
+- Warm, welcoming, curious
+- Ask good questions to understand their situation
+- Meet them where they are — no jargon, no pressure
+- Affirm that wherever they are on the journey is the right place to start
+
+AS CONVERSATION DEVELOPS (after 3+ exchanges):
+- Become more direct and challenging
+- Push back gently when they are being vague or overly cautious
+- Ask the harder questions: "What will you do in week one?" "Who specifically has to say yes?" "What are you actually afraid of here?"
+- Don't let them get away with abstract aspirations — help them get specific
+- Use the purpose framework to deepen the conversation when appropriate
+
+ALWAYS:
+- Be concise. No bullet-point dumps. Talk like a trusted advisor, not a manual.
+- When someone is stuck, ask one good question rather than giving five answers
+- Reference the workshop content naturally — the 5 models, the 1-degree principle, the purpose framework — but only when relevant
+- Never make the person feel judged for where they are on the journey
+- If someone seems to be burning out or frustrated, acknowledge it first before problem-solving
+- End longer responses with a single, clear question that moves the conversation forward
+
+FORMATTING:
+- Use plain conversational prose, not bullet lists, for most responses
+- Short paragraphs. White space. Easy to read on mobile.
+- Only use a structured format (like a numbered list) when drafting a commitment or action plan
+- Keep responses under 200 words unless drafting something specific`;
+}
+
+// ── START CHAT ─────────────────────────────────────────────────
+function startChat(anonymous = false) {
+  if (!anonymous) {
+    userContext = {
+      name: document.getElementById('userName').value.trim() || null,
+      chapter: document.getElementById('userChapter').value.trim() || null,
+      sector: document.getElementById('userSector').value.trim() || null,
+      model: document.getElementById('userModel').value || null,
+    };
+  }
+
+  document.getElementById('onboarding').classList.add('hidden');
+  document.getElementById('chatScreen').classList.remove('hidden');
+  document.getElementById('inputBar').classList.remove('hidden');
+
+  // Context bar
+  if (userContext.name || userContext.chapter) {
+    const bar = document.getElementById('contextBar');
+    const parts = [];
+    if (userContext.name) parts.push(`<span class="ctx-name">${userContext.name}</span>`);
+    if (userContext.chapter) parts.push(userContext.chapter);
+    if (userContext.sector) parts.push(userContext.sector);
+    if (userContext.model && userContext.model !== 'unsure') parts.push(`Model ${userContext.model}`);
+    document.getElementById('contextText').innerHTML = parts.join(' <span class="ctx-dot">·</span> ');
+    bar.style.display = 'flex';
+  }
+
+  // Opening message
+  const greeting = buildGreeting();
+  addMessage('assistant', greeting);
+  document.getElementById('userInput').focus();
+}
+
+function buildGreeting() {
+  const name = userContext.name;
+  const model = userContext.model;
+  const sector = userContext.sector;
+
+  let msg = name ? `Welcome back, ${name}.` : `Welcome.`;
+  msg += ` It's good to have you here.`;
+
+  if (model && model !== 'unsure') {
+    const modelNames = { '1':'Philanthropic', '2':'ESG Compliance', '3':'Shared Value', '4':'Impact-First', '5':'Transformative' };
+    msg += `\n\nYou placed yourself at Model ${model} — ${modelNames[model]}. That's a useful starting point. What's the question that's sitting with you most since the workshop?`;
+  } else if (sector) {
+    msg += `\n\nLeading a ${sector} business and thinking about the IO role — there's a lot to explore there. What's the question that's been sitting with you since the workshop?`;
+  } else {
+    msg += `\n\nYou've just come through the workshop. What's the question that's sitting with you most right now — about the IO role, your chapter, or your own purpose?`;
+  }
+
+  return msg;
+}
+
+// ── MESSAGING ─────────────────────────────────────────────────
+function addMessage(role, content) {
+  const messages = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = role === 'assistant' ? 'IO' : (userContext.name ? userContext.name[0].toUpperCase() : 'Y');
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = formatMessage(content);
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+  messageCount++;
+
+  // Hide suggestions after first user message
+  if (role === 'user' && messageCount > 1) {
+    document.getElementById('suggestions').style.display = 'none';
+  }
+}
+
+function formatMessage(text) {
+  // Convert newlines to paragraphs
+  return text.split('\n\n')
+    .filter(p => p.trim())
+    .map(p => {
+      // Handle blockquotes (lines starting with >)
+      if (p.startsWith('>')) {
+        return `<div class="quote-block">${p.substring(1).trim()}</div>`;
+      }
+      return `<p>${p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>')}</p>`;
+    }).join('');
+}
+
+function showTyping() {
+  const messages = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg assistant';
+  div.id = 'typing';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = 'IO';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing');
+  if (el) el.remove();
+}
+
+// ── SEND MESSAGE ───────────────────────────────────────────────
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  addMessage('user', text);
+  conversationHistory.push({ role: 'user', content: text });
+
+  isLoading = true;
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
+
+  try {
+    const response = await fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: buildSystemPrompt(),
+        messages: conversationHistory
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || "I'm sorry, something went wrong. Please try again.";
+
+    removeTyping();
+    addMessage('assistant', reply);
+    conversationHistory.push({ role: 'assistant', content: reply });
+
+  } catch (err) {
+    removeTyping();
+    addMessage('assistant', "Something went wrong with the connection. Please check your internet and try again.");
+  }
+
+  isLoading = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+function sendSuggestion(el) {
+  document.getElementById('userInput').value = el.textContent;
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+}
+</script>
+</body>
+</html>
