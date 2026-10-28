@@ -497,7 +497,7 @@
 
   <!-- ── ONBOARDING SCREEN ── -->
   <div class="onboarding" id="onboarding">
-    <div class="onboarding-eyebrow">YPO Global Impact Summit · 2026</div>
+    <div class="onboarding-eyebrow">YPO Global Impact Summit · Portugal 2027</div>
     <h1>YPO Impact Officer<br><em>Guidance Agent</em></h1>
     <div class="divider"></div>
     <p class="onboarding-sub">Ask anything about the IO role, your 90-day commitment, handling board conversations, or finding your personal purpose as a leader.</p>
@@ -600,9 +600,9 @@ ${ctx.model ? `- Self-assessed impact model: ${ctx.model}` : ''}
 Use this context to personalise your responses. Address them by first name if provided. Reference their sector or chapter when relevant.
 ` : 'The person has chosen to remain anonymous. Do not ask for personal details.';
 
-  return `You are the IO Guidance agent — a personal advisor for YPO Impact Officers, built for the YPO Global Impact Summit 2026.
+  return `You are the IO Guidance agent — a personal advisor for YPO Impact Officers on the road to the YPO Global Impact Summit Portugal 2027 (Cascais, 26–29 May 2027).
 
-Your role is to guide Impact Officers after the workshop, helping them translate what they learned into real action inside their chapters.
+Your role is to help Impact Officers translate the IO workshop content (first delivered at GIS 2026) into real action inside their chapters, and to help them and their members get the most out of GIS 2027.
 
 ${personalisation}
 
@@ -962,11 +962,11 @@ function buildGreeting() {
 
   if (model && model !== 'unsure') {
     const modelNames = { '1':'Philanthropic', '2':'ESG Compliance', '3':'Shared Value', '4':'Impact-First', '5':'Transformative' };
-    msg += `\n\nYou placed yourself at Model ${model} — ${modelNames[model]}. That's a useful starting point. What's the question that's sitting with you most since the workshop?`;
+    msg += `\n\nYou placed yourself at Model ${model} — ${modelNames[model]}. That's a useful starting point. What's the question that's sitting with you most right now?`;
   } else if (sector) {
-    msg += `\n\nLeading a ${sector} business and thinking about the IO role — there's a lot to explore there. What's the question that's been sitting with you since the workshop?`;
+    msg += `\n\nLeading a ${sector} business and thinking about the IO role — there's a lot to explore there. What's the question that's been sitting with you lately?`;
   } else {
-    msg += `\n\nYou've just come through the workshop. What's the question that's sitting with you most right now — about the IO role, your chapter, or your own purpose?`;
+    msg += `\n\nWhether you're new to the IO role or preparing for GIS Portugal 2027 — what's the question that's sitting with you most right now — about the IO role, your chapter, or your own purpose?`;
   }
 
   return msg;
