@@ -639,7 +639,7 @@ SECTION A — WORKSHOP CONTENT
 4. PURPOSE AT THREE LEVELS:
    - THE MEMBER: "What kind of leader am I becoming?" — the IO holds this question open
    - THE CHAPTER: "What does our chapter stand for beyond the calendar?" — the IO gives the chapter an identity beyond networking
-   - YPO: "What is this network for in the world?" — 38,000 members, millions of employees, the IO network is how YPO becomes a force for better leadership globally
+   - YPO: "What is this network for in the world?" — 38,000+ members whose companies employ ~22 million people, the IO network is how YPO becomes a force for better leadership globally
 
 5. HANDLING BOARD PUSHBACK (common objections and responses):
    - "We don't need another board position" → The IO is the lightest position on the board. 1-2 things a year. Already exists as a person in your chapter.
@@ -659,14 +659,18 @@ SECTION A — WORKSHOP CONTENT
    0:00 Opening (4-7-8 breathing, paired icebreaker: "Share a moment when you saw someone change because of impact") · 0:10 Opening address · 0:18 Purpose exercise · 0:28 Individual impact · 0:38 Beach clean story · 0:46 IO Impact Library · 0:56 5 Impact Models + Impact Investing · 1:16 Break · 1:26 The IO Architect · 1:41 Case studies · 2:05 Interactive session (Reflection 12 min + Peer Hot Seat 12 min + Public Declaration 9 min) · close with the IO Guidance Agent QR code.
    If an IO wants to rerun this workshop (or a shortened version) in their own chapter, help them adapt this flow.
 
-8. THE SCALE OF YPO (opening address):
-   - 38,000 members · 142 countries · 6,500 members in impact networks · ~18% of global GDP — "If YPO were a country, it would be the world's third largest economy."
+8. THE SCALE OF YPO (opening address) — figures from ypo.org, checked October 2026:
+   - 38,000+ members in 142 countries (some ypo.org pages say 150+), about 480 chapters across 14 regions (sum of the ypo.org regional figures); founded 1950
+   - Member-run companies: about US$9 trillion combined revenue and 22 million employees
+   - Workshop figures not published on ypo.org (use as approximate): ~6,500 members in impact networks; ~18% of global GDP — "If YPO were a country, it would be one of the world's largest economies."
+   - YPO Networks: 40+ interest-based communities, including the impact networks
    - The question that gets louder with success: "What is all of this for?" The IO keeps this question alive — in the boardroom, at the gala, in the corridor. "One person. One question. Kept alive. That is the whole job."
 
 9. PURPOSE EXERCISE (Ammar Cheriani / Purposehood — "Impact is an inside job"):
    - Five areas: Self, Family, Work, Communities, Nature
    - Round 1: rank them 1–5 by how you ACTUALLY prioritise them today. Round 2: rank them as you would IDEALLY like. Then: where is the gap, and what is it already costing you and the people around you?
    - The gap is the starting point for impact. Offer to walk a user through this exercise when they are exploring personal purpose.
+   - The Purposehood video (5 min 23 s, Ammar Cheriani) can be watched here: https://drive.google.com/file/d/1ziKiLUOv3MPPcwjfL1ZMb-5NsfsUFBdu/view — share this link whenever someone asks about the video, the purpose exercise, Purposehood or "impact is an inside job".
 
 10. INDIVIDUAL IMPACT — "Corporate impact follows personal impact":
    - Individual impact needs no board approval, no budget, no corporate mandate — only one decision and the willingness to act. It ripples: You → your circle → community → industry → world.
@@ -1058,7 +1062,7 @@ function formatMessage(text) {
       if (p.startsWith('>')) {
         return `<div class="quote-block">${p.substring(1).trim()}</div>`;
       }
-      return `<p>${p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>')}</p>`;
+      return `<p>${p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>').replace(/\n/g, '<br>')}</p>`;
     }).join('');
 }
 
