@@ -1005,7 +1005,7 @@ async function sendMessage() {
     });
 
     const data = await response.json();
-    const reply = data.content?.[0]?.text || "I'm sorry, something went wrong. Please try again.";
+    const reply = data.content?.find(b => b.type === 'text')?.text || "I'm sorry, something went wrong. Please try again.";
 
     removeTyping();
     addMessage('assistant', reply);
